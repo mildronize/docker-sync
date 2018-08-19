@@ -1,0 +1,27 @@
+{
+  "name": "docker-sync",
+  "version": "0.0.1",
+  "description": "Maximized the applications run time speed without bottleneck leveraging unison (for windows)",
+  "main": "index.js",
+  "scripts": {
+    "docker-restart": "docker-compose stop && docker-compose start",
+    "docker-init": "docker-compose up -d",
+    "docker-dev": "npm run sync-unison && npm run docker-restart && concurrently -k -n \"SYNC,DOCKER\" -c \"bgRed.bold,bgCyan.bold\" \"npm run watch-sync\" \"docker-compose exec debian echo 'do something'\"",
+    "watch-sync": "chokidar \"**/*\" -c \"npm run sync-unison\"",
+    "sync-unison": "unison . socket://192.168.99.100:5000/ -follow \"Regex .*\" -ignore \"Path node_modules\" -ignore \"Path .git\" -ignore \"Path yarn.lock\" -auto -batch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mildronize/docker-sync.git"
+  },
+  "author": "Thada Wangthammang",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mildronize/docker-sync/issues"
+  },
+  "homepage": "https://github.com/mildronize/docker-sync#readme",
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.6.1"
+  }
+}

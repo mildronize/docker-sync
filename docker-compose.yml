@@ -1,0 +1,19 @@
+version: '2'
+services:  
+
+  debian:
+    image: debian:stretch
+    command: sleep infinity
+    volumes_from:
+      - unison
+    depends_on:
+      - unison
+
+  unison:
+    image: 'leighmcculloch/unison:latest'
+    environment:
+      - UNISON_WORKING_DIR=/src
+    volumes:
+      - /src
+    ports:
+      - '5000:5000'
